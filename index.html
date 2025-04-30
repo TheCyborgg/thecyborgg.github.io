@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azad “The Cyborg” — Tech-Entrepreneur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0f1a;
+      --text-light: #e0e6f3;
+      --accent: #00f0ff;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: #0f1929;
+      --transition: 0.3s ease;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background: var(--bg-dark); color: var(--text-light); font-family: 'Roboto', sans-serif; }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: #fff; }
+    .container { max-width:1200px; margin:0 auto; padding:40px 20px; }
+    h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; }
+    /* Hero */
+    .hero { text-align:center; padding:100px 20px; background: linear-gradient(135deg, #0a0f1a 0%, #1c2533 100%); position:relative; }
+    .hero:before {
+      content: '';
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      opacity:0.2; mix-blend-mode: overlay;
+    }
+    .hero h1 { font-size:4rem; color: var(--accent); letter-spacing:2px; position:relative; }
+    .hero p.tagline { font-size:1.2rem; margin-top:10px; opacity:0.8; position:relative; }
+    .hero p.motto { font-style:italic; margin-top:15px; color:#fff; opacity:0.7; position:relative; }
+    /* Sections */
+    section { margin-bottom:60px; }
+    h2 { font-size:2rem; border-bottom:2px solid var(--accent); display:inline-block; margin-bottom:20px; }
+    /* Cards */
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
+    .card { background: var(--card-bg); border:1px solid var(--card-border); padding:20px; border-radius:10px; transition: transform var(--transition); }
+    .card:hover { transform: translateY(-5px); }
+    .card h3 { color: var(--accent); margin-bottom:10px; }
+    /* Adventure */
+    .adventure { background: #111a29; padding:40px; border-radius:10px; }
+    .adventure ul { list-style: none; }
+    .adventure ul li { margin-bottom:15px; padding-left:30px; position:relative; }
+    .adventure ul li:before {
+      content: '🚀'; position:absolute; left:0; top:0; font-size:1.2rem;
+    }
+    /* Books */
+    .books { display:flex; overflow-x: auto; gap:20px; padding-bottom:10px; }
+    .book-card { min-width:180px; background: var(--card-bg); border:1px solid var(--card-border); border-radius:10px; overflow:hidden; transition: transform var(--transition); }
+    .book-card:hover { transform: scale(1.05); }
+    .book-card img { width:100%; height:240px; object-fit:cover; }
+    .book-card .info { padding:15px; }
+    .book-card .info h4 { margin-bottom:8px; font-size:1.1rem; color: var(--accent); }
+    .book-card .info p { font-size:0.9rem; color: var(--text-light); }
+    /* Footer */
+    footer { text-align:center; padding:20px 0; border-top:1px solid var(--card-border); font-size:0.9rem; opacity:0.6; }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Azad “The Cyborg”</h1>
+    <p class="tagline">Tech-Entrepreneur | Builder | Pro-Reader</p>
+    <p class="motto">“Building for the sake of building.”</p>
+  </section>
+  <div class="container">
+    <section>
+      <h2>About Me</h2>
+      <p>As a Kabul-based computer science graduate and full-stack innovator, I design and deploy decentralized platforms to empower emerging economies. My ethos: embrace complexity, engineer solutions, and never shy away from the hard problems.</p>
+    </section>
+    <section>
+      <h2>Expertise</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Blockchain & DeFi</h3>
+          <p>Building token bridges, smart contracts, and on-chain governance systems.</p>
+        </div>
+        <div class="card">
+          <h3>AI & IoT</h3>
+          <p>Implementing machine learning pipelines and sensor networks for precision farming.</p>
+        </div>
+        <div class="card">
+          <h3>Real-World Assets</h3>
+          <p>Tokenizing physical assets to unlock liquidity for third-world markets.</p>
+        </div>
+        <div class="card">
+          <h3>Full-Stack Dev</h3>
+          <p>From backend APIs to sleek front-end experiences using modern JS frameworks.</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Projects & Interests</h2>
+      <ul>
+        <li>⚙️ <strong>Decentralized Asset Vault:</strong> Secure RWA collateralization.</li>
+        <li>🌱 <strong>SmartFarm AI:</strong> Data-driven crop yield optimization.</li>
+        <li>🔗 <strong>Cross-Chain Bridge:</strong> Seamless token transfers between networks.</li>
+      </ul>
+    </section>
+    <section class="adventure">
+      <h2>Adventures & Thrills</h2>
+      <ul>
+        <li>🗻 Conquering K2: Planning a future expedition to the Savage Mountain.</li>
+        <li>💨 Sprinting & Weightlifting: Training for explosive power and endurance.</li>
+        <li>🧘 Meditation & High-Altitude Hiking: Finding calm above the clouds.</li>
+        <li>🏹 Augmented Archery & Skydiving: Merging ancient skills with modern tech.</li>
+        <li>🚁 Jet-Powered Flight: Experimenting with personal VTOL prototypes.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Books Read (Through 2025)</h2>
+      <div class="books">
+        <div class="book-card">
+          <img src="https://images.unsplash.com/photo-1523292563854-09e2543befa6?auto=format&fit=crop&w=400&q=80" alt="The Principles">
+          <div class="info"><h4>The Principles</h4><p>by Ray Dalio</p></div>
+        </div>
+        <div class="book-card">
+          <img src="https://images.unsplash.com/photo-1557411361-507b0e76dbfd?auto=format&fit=crop&w=400&q=80" alt="The Internet of Money">
+          <div class="info"><h4>The Internet of Money</h4><p>by Andreas M. Antonopoulos</p></div>
+        </div>
+        <div class="book-card">
+          <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="Thinking in Systems">
+          <div class="info"><h4>Thinking in Systems</h4><p>by Donella H. Meadows</p></div>
+        </div>
+        <div class="book-card">
+          <img src="https://images.unsplash.com/photo-1581091870625-56c0f3328f1d?auto=format&fit=crop&w=400&q=80" alt="Read Write Own">
+          <div class="info"><h4>Read Write Own</h4><p>Web3 Publishing Guide</p></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Mission & Vision</h2>
+      <p>Empowering third-world economies through decentralized, cost-effective tech. I aim to architect solutions where scarcity drives innovation—especially across the Middle East, China, and beyond.</p>
+    </section>
+    <section>
+      <h2>Get in Touch</h2>
+      <p>Email: <a href="mailto:azad.cyborg@example.com">azad.cyborg@example.com</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/azad-cyborg" target="_blank">linkedin.com/in/azad-cyborg</a></p>
+    </section>
+  </div>
+  <footer>&copy; 2025 Azad “The Cyborg”. All rights reserved.</footer>
+</body>
+</html>
