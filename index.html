@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Azad “The Cyborg” – Enigma Storybook</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -18,268 +18,223 @@
       --mono: 'Space Mono', monospace;
       --futuristic: 'Orbitron', sans-serif;
     }
-    /* RESET & BODY */
+    /* RESET & BASE */
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body {
-      width:100%; height:100%; overflow:hidden;
-      background:var(--bg); color:var(--neon);
-      font-family:var(--mono);
+    html { height:100%; overflow-y:auto; overflow-x:hidden; }
+    body {
+      min-height:100%; background:var(--bg); color:var(--neon);
+      font-family:var(--mono); scroll-behavior:smooth;
+      overflow:visible;
+    }
+    a { color:var(--neon); text-decoration:none; }
+
+    /* PROGRESS BAR */
+    #progress {
+      position: fixed; top:0; left:0; height:4px; width:0;
+      background: var(--neon); box-shadow: 0 0 8px var(--neon);
+      z-index: 100;
     }
 
-    /* STORYBOOK CONTAINER */
-    .storybook {
-      display:flex;
-      width:100vw; height:100vh;
-      overflow-x:auto; overflow-y:hidden;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;          /* Firefox */
-      -ms-overflow-style:none;       /* IE */
+    /* SECTION STYLING */
+    section {
+      position: relative; padding: 6rem 2rem;
+      background: var(--panel-bg); min-height:100vh;
+      border-bottom: 2px solid var(--neon);
+      overflow: hidden;
+      transition: background .8s ease;
     }
-    .storybook::-webkit-scrollbar { display:none; }
+    section:nth-of-type(even) { background: #121212; }
 
-    /* PANELS */
-    .panel {
-      flex:0 0 100vw;
-      height:100vh;
-      scroll-snap-align:start;
-      background:var(--panel-bg);
-      border-right:2px solid var(--neon);
-      position:relative;
-      display:flex; align-items:center; justify-content:center;
+    /* SECTION NUMBER BACKDROP */
+    section::before {
+      content: attr(data-section-number);
+      position: absolute; top:10%; left:5%;
+      font-size: 8rem; font-family: var(--futuristic);
+      color: var(--neon); opacity: 0.03;
+      pointer-events: none;
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    section.active::before {
+      opacity: 0.1; transform: translate(-50%, -50%) scale(1);
     }
 
-    /* PAPER SLIDE‑UP + FADE */
+    /* SLIDE-UP + FADE-IN */
     .paper {
-      width:80%; max-width:700px;
-      padding:2rem;
-      background:rgba(0,0,0,0.6);
-      box-shadow:0 0 20px var(--shadow);
-      border:1px solid var(--neon);
-      border-radius:4px;
-      transform:translateY(50px);
-      opacity:0;
-      transition:transform .6s ease-out, opacity .6s ease-out;
+      max-width:700px; width:90%; margin:0 auto;
+      background: rgba(0,0,0,0.6); border:1px solid var(--neon);
+      box-shadow: 0 0 20px var(--shadow); border-radius:4px;
+      padding: 2rem; transform: translateY(50px); opacity:0;
+      transition: transform .6s ease-out, opacity .6s ease-out;
+      position:relative; z-index:1;
     }
-    .panel.active .paper {
-      transform:translateY(0);
-      opacity:1;
-    }
+    section.active .paper { transform: translateY(0); opacity:1; }
 
     /* PARALLAX LAYER */
     .layer {
-      position:absolute; top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none;
-      transition:transform .1s ease-out;
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      pointer-events:none; transition: transform .1s ease-out;
     }
 
     /* TYPOGRAPHY & GLITCH */
-    h1 { font-family:var(--futuristic); font-size:4rem; color:var(--neon); position:relative; }
+    h1 { font-family: var(--futuristic); font-size:4rem; position:relative; }
     .glitch::before, .glitch::after {
-      content:attr(data-text);
-      position:absolute; top:0; left:0;
+      content: attr(data-text); position:absolute; top:0; left:0;
       opacity:.6; clip:rect(0,0,0,0);
     }
-    .glitch::before { animation:glitchTop 2s infinite ease-in-out; }
-    .glitch::after  { animation:glitchBottom 3s infinite ease-in-out; }
+    .glitch::before { animation: glitchTop 2s infinite ease-in-out; }
+    .glitch::after  { animation: glitchBottom 3s infinite ease-in-out; }
     @keyframes glitchTop {
-      0%,20%,40%,100% { clip:rect(0,900px,0,0); transform:none; }
-      10% { clip:rect(0,900px,40px,0); transform:translate(-2px,-2px); }
-      30% { clip:rect(10px,900px,50px,0); transform:translate(-2px,2px); }
-    }
+      0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(0,900px,40px,0);transform:translate(-2px,-2px);}30%{clip:rect(10px,900px,50px,0);transform:translate(-2px,2px);} }
     @keyframes glitchBottom {
-      0%,20%,40%,100% { clip:rect(0,900px,0,0); transform:none; }
-      10% { clip:rect(60px,900px,100px,0); transform:translate(2px,2px); }
-      30% { clip:rect(80px,900px,120px,0); transform:translate(2px,-2px); }
+      0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(60px,900px,100px,0);transform:translate(2px,2px);}30%{clip:rect(80px,900px,120px,0);transform:translate(2px,-2px);} }
+
+    h2 { font-family:var(--futuristic); font-size:2rem; margin-bottom:1rem; text-align:center; }
+    h2::after { content:''; display:block; width:50px; height:2px; margin:8px auto 0;
+      background:var(--neon); box-shadow:0 0 8px var(--neon);
     }
 
-    h2 {
-      font-family:var(--futuristic);
-      font-size:2rem;
-      margin:1rem 0 .5rem;
-      position:relative;
-    }
-    h2::after {
-      content:''; display:block; width:50px; height:2px;
-      background:var(--neon);
-      margin:8px auto 0;
-      box-shadow:0 0 8px var(--neon);
-    }
-
-    p, ul {
-      font-size:1rem; line-height:1.5; margin-bottom:1rem;
-    }
+    p, ul { font-size:1rem; line-height:1.5; margin-bottom:1rem; }
     ul { list-style:none; padding:0; }
-    ul li {
-      position:relative; padding-left:20px; margin-bottom:.75rem;
+    ul li { position:relative; padding-left:20px; margin-bottom:.75rem;
+      transition:transform .3s ease, filter .3s ease;
     }
-    ul li::before {
-      content:'›'; position:absolute; left:0; color:var(--neon);
-    }
+    ul li::before { content:'›'; position:absolute; left:0; color:var(--neon); }
+    ul li:hover { transform:scale(1.05); filter:drop-shadow(0 0 6px var(--neon)); }
 
-    .quote {
-      font-style:italic; color:#aaa; margin:1rem 0; position:relative;
-    }
+    .quote { font-style:italic; color:#aaa; margin:1rem 0; position:relative; text-align:center; }
     .quote::before {
-      content:'“'; font-size:3rem; position:absolute; left:-10px; top:-20px;
-      color:var(--neon); opacity:.3;
+      content:'“'; font-size:3rem; position:absolute;
+      left:calc(50% - 10px); top:-20px; color:var(--neon); opacity:.3;
     }
 
-    /* PERSISTENT HINT */
-    #hint {
-      position:fixed; bottom:10%; left:50%;
-      transform:translateX(-50%);
-      background:rgba(0,0,0,0.7);
-      color:#fff; padding:8px 16px;
-      border-radius:4px;
-      font-size:0.9rem;
-      z-index:10;
+    .cta a { display:inline-block; padding:8px 16px; border:2px solid var(--neon);
+      font-family:var(--futuristic); position:relative; overflow:hidden;
+      transition:text-shadow .3s;
+    }
+    .cta a::after {
+      content:''; position:absolute; bottom:0; left:-100%; width:100%; height:2px;
+      background:var(--neon); transition:left .3s ease;
+    }
+    .cta a:hover { animation:neonPulse .8s ease-in-out 1; text-shadow:0 0 8px var(--neon); }
+    .cta a:hover::after { left:0; }
+    @keyframes neonPulse { 0%,100%{box-shadow:0 0 8px var(--neon);}50%{box-shadow:0 0 16px var(--neon);} }
+
+    /* RESPONSIVE */
+    @media (max-width:600px) {
+      h1 { font-size:2.5rem; }
+      section::before { font-size:6rem; }
+      .paper { padding:1rem; }
     }
   </style>
 </head>
 <body>
-  <!-- hint stays until first navigation -->
-  <div id="hint">← Swipe or press ← → to navigate →</div>
+  <div id="progress"></div>
 
-  <!-- story panels -->
-  <div class="storybook" id="storybook">
-    <section class="panel active">
-      <div class="layer" data-depth="0.02"></div>
-      <div class="paper">
-        <h1 class="glitch" data-text="The Cyborg">The Cyborg</h1>
-        <p>Tech‑Entrepreneur | Builder | Pro‑reader</p>
-        <div class="quote">Build where it matters most beyond borders</div>
+  <!-- SECTIONS -->
+  <section id="hero" data-section-number="01">
+    <div class="layer" data-depth="0.02"></div>
+    <div class="paper">
+      <h1 class="glitch" data-text="The Cyborg">The Cyborg</h1>
+      <p>Tech‑Entrepreneur | Builder | Pro‑reader</p>
+      <div class="quote">Build where it matters most beyond borders</div>
+      <p>I’m Azad, an entrepreneur with a bachelor’s in computer science and a lifelong passion for building. I work at the crossroads of traditional industries and technology. Every project is fueled by my drive to create technology that makes a tangible difference.</p>
+    </div>
+  </section>
 
-        <p>I’m Azad, an entrepreuner with a bachelor’s in computer science and a lifelong passion for building. I work at the crossroads of traditional industries and technology. Every project is fueled by my drive to create technology that makes a tangible difference.</p>
-      </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.04"></div>
-      <div class="paper">
-        <h2>My Mission</h2>
-        <p>
-          I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting‑edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting‑edge solutions and real human needs.</p>
-      </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.06"></div>
-      <div class="paper">
-       
+  <section id="mission" data-section-number="02">
+    <div class="layer" data-depth="0.04"></div>
+    <div class="paper">
+      <h2>My Mission</h2>
+      <p>I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting‑edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting‑edge solutions and real human needs.</p>
+    </div>
+  </section>
 
+  <section id="domains" data-section-number="03">
+    <div class="layer" data-depth="0.06"></div>
+    <div class="paper">
+      <h2>Domains & Topics</h2>
+      <ul>
+        <li>Tech Farming · WEB3 Real World Assets (RWA) · Decentralized Applications</li>
+        <li>AI‑driven apps · Practical blockchain use cases · Sustainable agriculture & food tech innovation</li>
+        <li>Obsession is the gateway to transcendence.</li>
+      </ul>
+    </div>
+  </section>
 
-        <h2> Domains & Topics</h2>
-        <ul>
-          <li>Domains: Tech Farming · WEB3 Real World Assets (RWA) · Decentralized Applications</li>
-          <li>
-Topics: AI‑driven apps · Practical blockchain use cases · Sustainable agriculture & food tech innovation
-</li>
-          <li>Obsession is the gateway to transcendence.</li>
-        </ul>
+  <section id="loves" data-section-number="04">
+    <div class="layer" data-depth="0.03"></div>
+    <div class="paper">
+      <h2>What I Love to Do</h2>
+      <ul>
+        <li>Sprinting</li>
+        <li>Weightlifting</li>
+        <li>Meditation &amp; hiking</li>
+        <li>Augmented archery</li>
+        <li>Skydiving</li>
+        <li>Jet‑powered flight</li>
+      </ul>
+      <p>I also lose track of time reading about and testing out the latest gadgets and robots.</p>
+    </div>
+  </section>
+
+  <section id="books" data-section-number="05">
+    <div class="layer" data-depth="0.05"></div>
+    <div class="paper">
+      <h2>Books I’ve Read in 2025</h2>
+      <ul>
+        <li>The Principles</li>
+        <li>The Internet of Money</li>
+        <li>Thinking in Systems</li>
+        <li>Read Write Own</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="fascinations" data-section-number="06">
+    <div class="layer" data-depth="0.05"></div>
+    <div class="paper">
+      <h2>What Fascinates Me</h2>
+      <p>I’m endlessly inspired by the raw ambition of K2 climbers and the elegant simplicity of Satoshi’s Bitcoin white paper—both testaments to human ingenuity prevailing against all odds.</p>
+    </div>
+  </section>
+
+  <section id="connect" data-section-number="07">
+    <div class="layer" data-depth="0.04"></div>
+    <div class="paper">
+      <h2>Let’s Connect</h2>
+      <p>I’m eager to collaborate with teams and founders who share my passion for marrying cutting‑edge tech with genuine social impact. If you believe technology can reshape lives in overlooked regions, let’s talk.</p>
+      <div class="cta">
+        <a href="mailto:youremail@example.com">Commune in Code</a>
       </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.03"></div>
-      <div class="paper">
-        <h2>What I Love to Do</h2>
-        <ul>
-          <li>Sprinting</li>
-          <li>Weightlifting</li>
-          <li>Meditation &amp; hiking</li>
-          <li>Augmented archery</li>
-          <li>Skydiving</li>
-          <li>Jet‑powered flight</li>
-        </ul>
-        <p>I also lose track of time reading about and testing out the latest gadgets and robots.</p>
-      
-      </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.05"></div>
-      <div class="paper">
-        <h2>Books I’ve Read in 2025</h2>
-        <ul>
-          <li>The Principles</li>
-          <li>The Internet of Money</li>
-          <li>Thinking in Systems</li>
-          <li>Read Write Own</li>
-        </ul>
-        </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.05"></div>
-      <div class="paper">
-        <h2>What Fascinates Me</h2>
-        <p>I’m endlessly inspired by the raw ambition of K2 climbers and the elegant simplicity of Satoshi’s Bitcoin white paper—both testaments to human ingenuity prevailing against all odds.</p>
-        </div>
-    </section>
-    <section class="panel">
-      <div class="layer" data-depth="0.04"></div>
-      <div class="paper">
-        <h2>Let’s Connect</h2>
-        <p>I’m eager to collaborate with teams and founders who share my passion for marrying cutting‑edge tech with genuine social impact. If you believe technology can reshape lives in overlooked regions, let’s talk.</p>
-        <div class="cta">
-          <a href="mailto:youremail@example.com"
-             style="color:var(--neon); border:2px solid var(--neon);
-                    padding:8px 16px; text-decoration:none;
-                    font-family:var(--futuristic);">
-            Commune in Code
-          </a>
-        </div>
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
   <script>
-    const scene = document.getElementById('storybook');
-    const panels = document.querySelectorAll('.panel');
-    const hint   = document.getElementById('hint');
-
-    // Hide hint on first scroll/swipe
-    const hideHint = () => {
-      if (hint) hint.remove();
-      scene.removeEventListener('scroll', hideHint);
-      scene.removeEventListener('touchstart', hideHint);
-      document.removeEventListener('keydown', onKey);
-    };
-
-    // Hide hint on arrow key navigation
-    const onKey = e => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        hideHint();
-      }
-    };
-
-    scene.addEventListener('scroll', hideHint, { once: true });
-    scene.addEventListener('touchstart', hideHint, { once: true });
-    document.addEventListener('keydown', onKey, { once: true });
-
-    // IntersectionObserver for slide‑up reveal
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('active');
-      });
-    }, { threshold: 0.6 });
-    panels.forEach(p => io.observe(p));
-
-    // Parallax on mousemove
-    scene.addEventListener('mousemove', e => {
-      const { left, top, width, height } = scene.getBoundingClientRect();
-      const x = (e.clientX - left)/width - 0.5;
-      const y = (e.clientY - top)/height - 0.5;
-      panels.forEach(panel => {
-        const layer = panel.querySelector('.layer');
-        layer.style.transform = `translate(${x*parseFloat(layer.dataset.depth)*100}px, ${y*parseFloat(layer.dataset.depth)*100}px)`;
-      });
+    // Scroll Progress Bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progress').style.width = `${progress}%`;
     });
 
-    // Arrow‑key navigation
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight') {
-        scene.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-      } else if (e.key === 'ArrowLeft') {
-        scene.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-      }
+    // IntersectionObserver for slide-up reveal
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.6 });
+    sections.forEach(sec => observer.observe(sec));
+
+    // Parallax on scroll
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      sections.forEach(sec => {
+        const layer = sec.querySelector('.layer');
+        const depth = parseFloat(layer.dataset.depth);
+        layer.style.transform = `translateY(${scrollY * depth}px)`;
+      });
     });
   </script>
 </body>
