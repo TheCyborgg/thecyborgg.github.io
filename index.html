@@ -122,8 +122,14 @@
     /* RESPONSIVE */
     @media (max-width:600px) {
       h1 { font-size:2.5rem; }
+      section { padding:4rem 1rem; }
       section::before { font-size:6rem; }
-      .paper { padding:1rem; }
+      .paper {
+        padding:1rem;
+        max-width: none;
+        width:100%;
+        border-radius:0;
+      }
     }
   </style>
 </head>
@@ -224,7 +230,7 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('active');
       });
-    }, { threshold: 0.6 });
+    }, { threshold: 0, rootMargin: '0px 0px -200px 0px' });
     sections.forEach(sec => observer.observe(sec));
 
     // Parallax on scroll
