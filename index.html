@@ -14,112 +14,383 @@
       --bg: #0d0d0d;
       --panel-bg: #111;
       --neon: #00ff9f;
-      --shadow: rgba(0,255,159,0.2);
+      --neon-opacity: rgba(0, 255, 159, 0.9);
+      --shadow: rgba(0, 255, 159, 0.2);
       --mono: 'Space Mono', monospace;
       --futuristic: 'Orbitron', sans-serif;
     }
+
     /* RESET & BASE */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { height:100%; overflow-y:auto; overflow-x:hidden; }
-    body {
-      min-height:100%; background:var(--bg); color:var(--neon);
-      font-family:var(--mono); scroll-behavior:smooth; overflow:visible;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    a { color:var(--neon); text-decoration:none; }
+    html {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--neon-opacity);
+      font-family: var(--mono);
+      scroll-behavior: smooth;
+      overflow: visible;
+      line-height: 1.6;
+    }
+    a {
+      color: var(--neon);
+      text-decoration: none;
+    }
+    p {
+      color: var(--neon-opacity);
+    }
 
     /* PROGRESS BAR */
     #progress {
-      position: fixed; top:0; left:0; height:4px; width:0;
-      background: var(--neon); box-shadow: 0 0 8px var(--neon);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 6px;
+      width: 0;
+      background: linear-gradient(90deg, var(--neon), rgba(0, 255, 159, 0.5));
+      box-shadow: 0 0 6px var(--neon), 0 0 20px var(--shadow);
       z-index: 100;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    #progress:hover {
+      box-shadow: 0 0 12px var(--neon), 0 0 30px rgba(0, 255, 159, 0.3);
     }
 
     /* SECTION STYLING */
     section {
-      position: relative; padding: 6rem 3rem;
-      background: var(--panel-bg); min-height:100vh;
+      position: relative;
+      padding: 8rem 3rem;
+      background: var(--panel-bg);
+      min-height: 100vh;
       border-bottom: 2px solid var(--neon);
-      overflow: hidden; transition: background .8s ease;
+      overflow: hidden;
+      transition: background 0.8s ease, opacity 0.8s ease;
+      opacity: 0.9;
     }
-    section:nth-of-type(even) { background: #121212; }
+    section:nth-of-type(even) {
+      background: #121212;
+    }
+    section.active {
+      opacity: 1;
+    }
 
     /* SECTION NUMBER BACKDROP */
     section::before {
       content: attr(data-section-number);
-      position: absolute; top:10%; left:5%;
-      font-size: 8rem; font-family: var(--futuristic);
-      color: var(--neon); opacity: 0.03;
+      position: absolute;
+      top: 10%;
+      left: 7%;
+      font-size: 8rem;
+      font-family: var(--futuristic);
+      color: var(--neon);
+      opacity: 0.03;
       pointer-events: none;
-      transition: opacity .6s ease, transform .6s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
     section.active::before {
-      opacity: 0.1; transform: translate(-50%, -50%) scale(1);
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     /* SLIDE-UP + FADE-IN */
     .paper {
-      width:100%; max-width:90vw; margin:0 auto;
-      background: rgba(0,0,0,0.6); border:1px solid var(--neon);
-      box-shadow: 0 0 20px var(--shadow); border-radius:4px;
-      padding: 2rem; transform: translateY(50px); opacity:0;
-      transition: transform .6s ease-out, opacity .6s ease-out;
-      position:relative; z-index:1;
+      width: 100%;
+      max-width: 90vw;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--neon);
+      box-shadow: 0 0 20px var(--shadow);
+      border-radius: 4px;
+      padding: 2rem;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+      position: relative;
+      z-index: 1;
     }
-    section.active .paper { transform: translateY(0); opacity:1; }
+    section.active .paper {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     /* PARALLAX LAYER */
     .layer {
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      pointer-events:none; transition: transform .1s ease-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transition: transform 0.1s ease-out;
     }
 
     /* TYPOGRAPHY & GLITCH */
-    h1 { font-family: var(--futuristic); font-size:4rem; position:relative; }
-    .glitch::before, .glitch::after {
-      content: attr(data-text); position:absolute; top:0; left:0;
-      opacity:.6; clip:rect(0,0,0,0);
+    h1 {
+      font-family: var(--futuristic);
+      font-size: 4rem;
+      position: relative;
+      color: var(--neon);
     }
-    .glitch::before { animation: glitchTop 2s infinite ease-in-out; }
-    .glitch::after  { animation: glitchBottom 3s infinite ease-in-out; }
-    @keyframes glitchTop { 0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(0,900px,40px,0);transform:translate(-2px,-2px);}30%{clip:rect(10px,900px,50px,0);transform:translate(-2px,2px);} }
-    @keyframes glitchBottom { 0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(60px,900px,100px,0);transform:translate(2px,2px);}30%{clip:rect(80px,900px,120px,0);transform:translate(2px,-2px);} }
-
-    h2 { font-family:var(--futuristic); font-size:2rem; margin-bottom:1rem; text-align:center; }
-    h2::after { content:''; display:block; width:50px; height:2px; margin:8px auto 0;
-      background:var(--neon); box-shadow:0 0 8px var(--neon);
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+      clip: rect(0, 0, 0, 0);
+    }
+    .glitch::before {
+      animation: glitchTop 2.5s infinite ease-in-out;
+    }
+    .glitch::after {
+      animation: glitchBottom 3s infinite ease-in-out;
+    }
+    @keyframes glitchTop {
+      0%, 20%, 40%, 100% {
+        clip: rect(0, 900px, 0, 0);
+      }
+      10% {
+        clip: rect(0, 900px, 40px, 0);
+        transform: translate(-1px, -1px);
+      }
+      30% {
+        clip: rect(10px, 900px, 50px, 0);
+        transform: translate(-1px, 2px);
+      }
+    }
+    @keyframes glitchBottom {
+      0%, 20%, 40%, 100% {
+        clip: rect(0, 900px, 0, 0);
+      }
+      10% {
+        clip: rect(60px, 900px, 100px, 0);
+        transform: translate(1px, 1px);
+      }
+      30% {
+        clip: rect(80px, 900px, 120px, 0);
+        transform: translate(1px, -1px);
+      }
     }
 
-    p, ul { font-size:1rem; line-height:1.5; margin-bottom:1rem; }
-    ul { list-style:none; padding:0; }
-    ul li { position:relative; padding-left:20px; margin-bottom:.75rem;
-      transition:transform .3s ease, filter .3s ease;
+    h2 {
+      font-family: var(--futuristic);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: var(--neon);
     }
-    ul li::before { content:'›'; position:absolute; left:0; color:var(--neon); }
-    ul li:hover { transform:scale(1.05); filter:drop-shadow(0 0 6px var(--neon)); }
+    h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      margin: 8px auto 0;
+      background: var(--neon);
+      box-shadow: 0 0 8px var(--neon);
+    }
 
-    .quote { font-style:italic; color:#aaa; margin:1rem 0; position:relative; text-align:center; }
-    .quote::before { content:'“'; font-size:3rem; position:absolute;
-      left:calc(50% - 10px); top:-20px; color:var(--neon); opacity:.3;
+    p,
+    ul {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 0.75rem;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--neon);
+    }
+    ul li:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 6px var(--neon));
+    }
+
+    .quote {
+      font-style: italic;
+      color: #aaa;
+      margin: 1rem 0;
+      position: relative;
+      text-align: center;
+    }
+    .quote::before {
+      content: '“';
+      font-size: 3rem;
+      position: absolute;
+      left: calc(50% - 10px);
+      top: -20px;
+      color: var(--neon);
+      opacity: 0.3;
     }
 
     /* BUTTON HOVER EFFECT */
-    .cta a { display:inline-block; padding:8px 16px; border:2px solid var(--neon);
-      font-family:var(--futuristic); position:relative; overflow:hidden;
-      transition:text-shadow .3s;
+    .cta a {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border: 2px solid var(--neon);
+      font-family: var(--futuristic);
+      position: relative;
+      overflow: hidden;
+      transition: text-shadow 0.3s, transform 0.3s ease;
     }
-    .cta a::after { content:''; position:absolute; bottom:0; left:-100%; width:100%; height:2px;
-      background:var(--neon); transition:left .3s ease;
+    .cta a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: var(--neon);
+      transition: left 0.3s ease;
     }
-    .cta a:hover { animation:neonPulse .8s ease-in-out 1; text-shadow:0 0 8px var(--neon); }
-    .cta a:hover::after { left:0; }
-    @keyframes neonPulse { 0%,100%{box-shadow:0 0 8px var(--neon);}50%{box-shadow:0 0 16px var(--neon);} }
+    .cta a:hover {
+      animation: neonPulse 0.8s ease-in-out 1;
+      text-shadow: 0 0 8px var(--neon);
+      transform: translateY(-2px);
+    }
+    .cta a:hover::after {
+      left: 0;
+    }
+    @keyframes neonPulse {
+      0%, 100% {
+        box-shadow: 0 0 8px var(--neon);
+      }
+      50% {
+        box-shadow: 0 0 16px var(--neon);
+      }
+    }
+
+    /* GALLERY STYLES */
+    #gallery {
+      padding-bottom: 6rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--neon);
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 12px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 24px var(--neon);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.12);
+    }
+
+    /* FOOTER STYLES */
+    footer {
+      background: #0a0a0a;
+      padding: 2rem 1rem;
+      text-align: center;
+      color: #555;
+      border-top: 1px solid var(--neon);
+    }
+    .footer-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .footer-container p {
+      margin-bottom: 0.5rem;
+    }
+    .back-to-top {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--neon);
+      font-size: 1.25rem;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .back-to-top:hover {
+      transform: translateY(-2px);
+    }
 
     /* RESPONSIVE */
-    @media (max-width:768px) {
-      section { padding:4rem 1rem; }
-      h1 { font-size:2.5rem; }
-      section::before { font-size:6rem; top:5%; left:2%; }
-      .paper { padding:1rem; max-width:none; width:100%; border-radius:0; margin:0; }
+    @media (max-width: 1024px) {
+      section {
+        padding: 6rem 2rem;
+      }
+      h1 {
+        font-size: 3.5rem;
+      }
+      h2 {
+        font-size: 1.75rem;
+      }
+      section::before {
+        font-size: 7rem;
+        top: 8%;
+        left: 8%;
+      }
+    }
+    @media (max-width: 768px) {
+      section {
+        padding: 4rem 1rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      section::before {
+        font-size: 6rem;
+        top: 6%;
+        left: 10%;
+      }
+      .paper {
+        padding: 1rem;
+        max-width: none;
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+      }
+      .cta a {
+        padding: 0.75rem 1.5rem;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+    }
+    @media (max-width: 480px) {
+      section::before {
+        font-size: 4rem;
+        top: 3%;
+        left: 5%;
+      }
     }
   </style>
 </head>
@@ -131,7 +402,7 @@
     <div class="layer" data-depth="0.02"></div>
     <div class="paper">
       <h1 class="glitch" data-text="The Cyborg">The Cyborg</h1>
-      <p>Tech‑Entrepreneur | Builder | Pro‑reader</p>
+      <p>Tech-Entrepreneur | Builder | Pro-reader</p>
       <div class="quote">Build where it matters most beyond borders</div>
       <p>I’m Azad, an entrepreneur with a bachelor’s in computer science and a lifelong passion for building. I work at the crossroads of traditional industries and technology. Every project is fueled by my drive to create technology that makes a tangible difference.</p>
     </div>
@@ -141,19 +412,18 @@
     <div class="layer" data-depth="0.04"></div>
     <div class="paper">
       <h2>My Mission</h2>
-      <p>I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting‑edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting‑edge solutions and real human needs.</p>
+      <p>I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting-edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting-edge solutions and real human needs.</p>
     </div>
   </section>
 
   <section id="domains" data-section-number="03">
     <div class="layer" data-depth="0.06"></div>
     <div class="paper">
-      <h2>Domains & Topics</h2>
+      <h2>Domains &amp; Topics</h2>
       <ul>
         <li>WEB3 Real World Assets (RWA) · Decentralized Applications · Practical blockchain use cases</li>
-        <li>Tech Farming · Sustainable agriculture & food tech innovation</li>
-        <li>AI-driven apps & agents</li>
-        
+        <li>Tech Farming · Sustainable agriculture &amp; food tech innovation</li>
+        <li>AI-driven apps &amp; agents</li>
       </ul>
     </div>
   </section>
@@ -168,7 +438,7 @@
         <li>Meditation &amp; hiking</li>
         <li>Augmented archery</li>
         <li>Skydiving</li>
-        <li>Jet‑powered flight (loading...)</li>
+        <li>Jet-powered flight (loading...)</li>
       </ul>
       <p>I also lose track of time reading about and testing out the latest gadgets and robots.</p>
     </div>
@@ -199,38 +469,105 @@
     <div class="layer" data-depth="0.04"></div>
     <div class="paper">
       <h2>Let’s Connect</h2>
-      <p>I’m eager to collaborate with teams and founders who share my passion for marrying cutting‑edge tech with genuine social impact. If you believe technology can reshape lives in overlooked regions, let’s talk.</p>
+      <p>I’m eager to collaborate with teams and founders who share my passion for marrying cutting-edge tech with genuine social impact. If you believe technology can reshape lives in overlooked regions, let’s talk.</p>
       <div class="cta">
-        <a href="mailto:azad@xiq.world">Commune in Code</a>
+        <a href="mailto:azad@xiq.world">Connect via Email</a>
       </div>
     </div>
   </section>
 
+  <!-- GALLERY SECTION -->
+  <!-- <section id="gallery" data-section-number="08">
+    <div class="layer" data-depth="0.04"></div>
+    <div class="paper">
+      <h2>Gallery</h2>
+      <p class="quote" style="font-style: normal; color: #aaa; font-size: 0.9rem; text-align: center;">
+        A few moments captured while building, traveling, and exploring.
+      </p>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <a href="images/portfolio1-large.jpg" target="_blank" rel="noopener">
+            <img src="C:\Users\Azad\Desktop\words\profile.jpeg" alt="Prototype demo in Kabul" width="300" height="200" loading="lazy" />
+          </a>
+        </div>
+        <div class="gallery-item">
+          <a href="images/portfolio2-large.jpg" target="_blank" rel="noopener">
+            <img src="images/portfolio2-thumb.jpg" alt="Web3 workshop event" width="300" height="200" loading="lazy" />
+          </a>
+        </div>
+        <div class="gallery-item">
+          <a href="images/portfolio3-large.jpg" target="_blank" rel="noopener">
+            <img src="images/portfolio3-thumb.jpg" alt="Field testing sustainable farm tech" width="300" height="200" loading="lazy" />
+          </a>
+        </div>
+        <div class="gallery-item">
+          <a href="images/portfolio4-large.jpg" target="_blank" rel="noopener">
+            <img src="images/portfolio4-thumb.jpg" alt="Skydiving over the mountains" width="300" height="200" loading="lazy" />
+          </a>
+        </div>
+    
+      </div>
+    </div>
+  </section> -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2025 Azad “The Cyborg”. All rights reserved.</p>
+      <a href="#hero" class="back-to-top" aria-label="Back to top">↑ Back to Top</a>
+    </div>
+  </footer>
+
   <script>
-    // Scroll Progress Bar
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      document.getElementById('progress').style.width = `${(scrollTop / docHeight) * 100}%`;
-    });
+    // Combined Scroll Handler using requestAnimationFrame
+    (function() {
+      const progressBar = document.getElementById('progress');
+      const sections = document.querySelectorAll('section');
+      let lastScrollY = 0;
+      let ticking = false;
 
-    // IntersectionObserver for slide-up reveal
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-      });
-    }, { threshold: 0.3 });
-    sections.forEach(sec => observer.observe(sec));
+      function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+      }
 
-    // Parallax on scroll
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      sections.forEach(sec => {
-        const layer = sec.querySelector('.layer');
-        layer.style.transform = `translateY(${scrollY * parseFloat(layer.dataset.depth)}px)`;
-      });
-    });
+      function requestTick() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+        }
+        ticking = true;
+      }
+
+      function update() {
+        const scrollTop = lastScrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percentScrolled = (scrollTop / docHeight) * 100;
+        progressBar.style.width = percentScrolled + '%';
+
+        sections.forEach(sec => {
+          const layer = sec.querySelector('.layer');
+          if (layer) {
+            const depth = parseFloat(layer.dataset.depth);
+            layer.style.transform = `translateY(${scrollTop * depth}px)`;
+          }
+        });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', onScroll);
+      // Initialize at load
+      update();
+
+      // IntersectionObserver for section reveal
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+      }, { threshold: 0.3 });
+
+      sections.forEach(sec => observer.observe(sec));
+    })();
   </script>
 </body>
 </html>
