@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
+   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WFZE1D76F"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,441 +10,199 @@
 
   gtag('config', 'G-6WFZE1D76F');
 </script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Azad “The Cyborg” – Enigma Storybook</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  
+    /* Global list styles */
+    ul { list-style: none; padding: 0; font-size: 1rem; line-height: 1.5; margin-bottom: 1rem; }
+    ul li { position: relative; padding-left: 20px; margin-bottom: .75rem; transition: transform .3s, filter .3s; }
+    ul li::before { content: '›'; position: absolute; left: 0; color: var(--neon); }
+    ul li:hover { transform: scale(1.05); filter: drop-shadow(0 0 6px var(--neon)); }
 
+    /* Books list overrides: minimal padding to match other lists */
+    ul.books-list { margin: 1rem 0; }
+    ul.books-list li {
+    
+      padding-left: 20px;      /* same as global */
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: .75rem;
+    }
+   
+
+    ul.books-list li .book-title {
+      font-family: var(--futuristic);
+      font-size: 1.1rem;
+      color: var(--neon);
+      display: block;
+    }
+    ul.books-list li .book-author {
+      font-style: italic;
+      color: var(--neon-opacity);
+      display: block;
+      font-size: 0.9rem;
+    }
+    ul.books-list li .status {
+      float: right;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      background: var(--neon);
+      color: var(--bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+  </style>
   <style>
+    @media (max-width: 768px) {
+  /* existing rules… */
+
+  /* make every .paper full‑width/centered */
+  section .paper {
+    /* span from the first to last grid line */
+    grid-column: 1 / -1 !important;
+  }
+}
+
     :root {
       --bg: #0d0d0d;
       --panel-bg: #111;
       --neon: #00ff9f;
-      --neon-opacity: rgba(0, 255, 159, 0.9);
-      --shadow: rgba(0, 255, 159, 0.2);
+      --neon-opacity: rgba(0,255,159,0.9);
+      --shadow: rgba(0,255,159,0.2);
       --mono: 'Space Mono', monospace;
       --futuristic: 'Orbitron', sans-serif;
+      --wire-off: rgba(0,0,0,0.2);
+      --wire-on: var(--neon);
     }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { height:100%; overflow-x:hidden; }
+    body { background:var(--bg); color:var(--neon-opacity); font-family:var(--mono); scroll-behavior:smooth; line-height:1.6; }
+    a { color:var(--neon); text-decoration:none; }
 
-    /* RESET & BASE */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html {
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    body {
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--neon-opacity);
-      font-family: var(--mono);
-      scroll-behavior: smooth;
-      overflow: visible;
-      line-height: 1.6;
-    }
-    a {
-      color: var(--neon);
-      text-decoration: none;
-    }
-    p {
-      color: var(--neon-opacity);
-    }
+    #progress { position:fixed; top:0; left:0; height:6px; width:0; background:linear-gradient(90deg,var(--neon),rgba(0,255,159,0.5)); box-shadow:0 0 6px var(--neon),0 0 20px var(--shadow); z-index:100; }
+    #progress:hover { box-shadow:0 0 12px var(--neon),0 0 30px rgba(0,255,159,0.3); }
 
-    /* PROGRESS BAR */
-    #progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 6px;
-      width: 0;
-      background: linear-gradient(90deg, var(--neon), rgba(0, 255, 159, 0.5));
-      box-shadow: 0 0 6px var(--neon), 0 0 20px var(--shadow);
-      z-index: 100;
-      transition: box-shadow 0.3s ease-in-out;
-    }
-    #progress:hover {
-      box-shadow: 0 0 12px var(--neon), 0 0 30px rgba(0, 255, 159, 0.3);
-    }
+    #wire { position:fixed; top:0; left:50px; width:4px; height:100%; z-index:1; }
+    #wire svg { width:100%; height:100%; }
+    .wire-path { fill:none; stroke:var(--wire-off); stroke-width:4; transition:stroke .3s ease; }
 
-    /* SECTION STYLING */
-    section {
-      position: relative;
-      padding: 8rem 3rem;
-      background: var(--panel-bg);
-      min-height: 100vh;
-      border-bottom: 2px solid var(--neon);
-      overflow: hidden;
-      transition: background 0.8s ease, opacity 0.8s ease;
-      opacity: 0.9;
-    }
-    section:nth-of-type(even) {
-      background: #121212;
-    }
-    section.active {
-      opacity: 1;
-    }
+    section { position:relative; padding:8rem 3rem; background:var(--panel-bg); min-height:100vh; border-bottom:2px solid var(--neon); overflow:hidden; opacity:.9; display:grid; grid-template-columns:repeat(12,1fr); gap:1rem; }
+    section.alt { direction:rtl; }
+    section.alt .paper { direction:ltr; grid-column:6/span6; }
+    section:not(.alt) .paper { grid-column:2/span6; }
+    section:nth-of-type(even) { background:#121212; }
+    section.active { opacity:1; }
 
-    /* SECTION NUMBER BACKDROP */
-    section::before {
-      content: attr(data-section-number);
-      position: absolute;
-      top: 10%;
-      left: 7%;
-      font-size: 8rem;
-      font-family: var(--futuristic);
-      color: var(--neon);
-      opacity: 0.03;
-      pointer-events: none;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    section.active::before {
-      opacity: 0.3;
-      transform: translate(-50%, -50%) scale(1);
-    }
+    section::before { content:attr(data-section-number); position:absolute; top:10%; left:7%; font-family:var(--futuristic); font-size:8rem; color:var(--neon); opacity:.03; pointer-events:none; transition:opacity .6s,transform .6s; }
+    section.active::before { opacity:.3; transform:translate(-50%,-50%) scale(1); }
 
-    /* SLIDE-UP + FADE-IN */
-    .paper {
-      width: 100%;
-      max-width: 90vw;
-      margin: 0 auto;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--neon);
-      box-shadow: 0 0 20px var(--shadow);
-      border-radius: 4px;
-      padding: 2rem;
-      transform: translateY(50px);
-      opacity: 0;
-      transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-      position: relative;
-      z-index: 1;
-    }
-    section.active .paper {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .paper { background:rgba(0,0,0,0.6); border:1px solid var(--neon); box-shadow:0 0 20px var(--shadow); border-radius:4px; padding:2rem; transform:translateY(50px); opacity:0; transition:transform .6s ease-out,opacity .6s ease-out; position:relative; z-index:1; }
+    section.active .paper { transform:translateY(0); opacity:1; }
 
-    /* PARALLAX LAYER */
-    .layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      transition: transform 0.1s ease-out;
-    }
+    .layer { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; transition:transform .1s ease-out; }
 
-    /* TYPOGRAPHY & GLITCH */
-    h1 {
-      font-family: var(--futuristic);
-      font-size: 4rem;
-      position: relative;
-      color: var(--neon);
-    }
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0.5;
-      clip: rect(0, 0, 0, 0);
-    }
-    .glitch::before {
-      animation: glitchTop 2.5s infinite ease-in-out;
-    }
-    .glitch::after {
-      animation: glitchBottom 3s infinite ease-in-out;
-    }
-    @keyframes glitchTop {
-      0%, 20%, 40%, 100% {
-        clip: rect(0, 900px, 0, 0);
-      }
-      10% {
-        clip: rect(0, 900px, 40px, 0);
-        transform: translate(-1px, -1px);
-      }
-      30% {
-        clip: rect(10px, 900px, 50px, 0);
-        transform: translate(-1px, 2px);
-      }
-    }
-    @keyframes glitchBottom {
-      0%, 20%, 40%, 100% {
-        clip: rect(0, 900px, 0, 0);
-      }
-      10% {
-        clip: rect(60px, 900px, 100px, 0);
-        transform: translate(1px, 1px);
-      }
-      30% {
-        clip: rect(80px, 900px, 120px, 0);
-        transform: translate(1px, -1px);
-      }
-    }
+    #hero .glitch { font-family:var(--futuristic); font-size:4rem; color:var(--neon); position:relative; }
+    #hero .glitch::before,#hero .glitch::after { content:attr(data-text); position:absolute; top:0; left:0; opacity:.5; }
+    #hero .glitch::before { left:2px; text-shadow:-2px 0 var(--neon); clip:rect(0,900px,0,0); animation:glitchTop 2.5s infinite ease-in-out; }
+    #hero .glitch::after { left:-2px; text-shadow:2px 0 var(--neon); clip:rect(0,900px,0,0); animation:glitchBottom 3s infinite ease-in-out; }
+    @keyframes glitchTop{0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(0,900px,40px,0);transform:translate(-1px,-1px);}30%{clip:rect(10px,900px,50px,0);transform:translate(-1px,2px);}}
+    @keyframes glitchBottom{0%,20%,40%,100%{clip:rect(0,900px,0,0);}10%{clip:rect(60px,900px,100px,0);transform:translate(1px,1px);}30%{clip:rect(80px,900px,120px,0);transform:translate(1px,-1px);}}
 
-    h2 {
-      font-family: var(--futuristic);
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      color: var(--neon);
-    }
-    h2::after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 2px;
-      margin: 8px auto 0;
-      background: var(--neon);
-      box-shadow: 0 0 8px var(--neon);
-    }
+    .icon{position:absolute;width:40px;height:40px;opacity:.7;transition:transform .4s,opacity .4s;animation:float 6s ease-in-out infinite;}
+    .icon:hover{animation:orbit 1.5s linear infinite;transform-origin:center;opacity:1;}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0)}}
+    @keyframes orbit{from{transform:rotate(0deg) translateX(20px) rotate(0deg);}to{transform:rotate(360deg) translateX(20px) rotate(-360deg);}}
 
-    p,
+    .trail{pointer-events:none;position:fixed;top:0;left:0;width:100%;height:100%;mix-blend-mode:screen;z-index:95;}
+
+    h2{font-family:var(--futuristic);font-size:2rem;text-align:center;color:var(--neon);margin-bottom:1rem;}
+    h2::after{content:'';display:block;width:50px;height:2px;margin:8px auto 0;background:var(--neon);box-shadow:0 0 8px var(--neon);}
+    ul{list-style:none;padding:0;font-size:1rem;line-height:1.5;margin-bottom:1rem;}
+    ul li{position:relative;padding-left:20px;margin-bottom:.75rem;transition:transform .3s,filter .3s;}
+    ul li::before{content:'›';position:absolute;left:0;color:var(--neon);}
+    ul li:hover{transform:scale(1.05);filter:drop-shadow(0 0 6px var(--neon));}
+    .quote{font-style:italic;color:#aaa;text-align:center;margin:1rem 0;position:relative;}
+    .quote::before{content:'“';font-size:3rem;position:absolute;left:calc(50% - 10px);top:-20px;color:var(--neon);opacity:.3;}
+    .cta a{display:inline-block;padding:1rem 2rem;border:2px solid var(--neon);font-family:var(--futuristic);position:relative;overflow:hidden;transition:text-shadow .3s,transform .3s;}
+    .cta a::after{content:'';position:absolute;bottom:0;left:-100%;width:100%;height:2px;background:var(--neon);transition:left .3s ease;}
+    .cta a:hover{animation:neonPulse .8s ease-in-out 1;text-shadow:0 0 8px var(--neon);transform:translateY(-2px);}
+    .cta a:hover::after{left:0;}
+    @keyframes neonPulse{0%,100%{box-shadow:0 0 8px var(--neon);}50%{box-shadow:0 0 16px var(--neon);}}
+
+    footer { background:#0a0a0a; padding:2rem 1rem; text-align:center; color:#555; border-top:1px solid var(--neon); }
+    .footer-container { max-width:800px; margin:0 auto; }
+    .footer-container p { margin-bottom:0.5rem; }
+    .back-to-top { display:inline-block; margin-top:0.5rem; color:var(--neon); font-size:1.25rem; text-decoration:none; transition:transform .3s; }
+    .back-to-top:hover { transform:translateY(-2px); }
+
+    @media(max-width:1024px){section{padding:6rem 2rem;}#hero .glitch{font-size:3.5rem;}h2{font-size:1.75rem;}section::before{font-size:7rem;top:8%;left:8%;}}
+    @media(max-width:768px){section{padding:4rem 1rem;}#hero .glitch{font-size:2.5rem;}h2{font-size:1.5rem;}section::before{font-size:6rem;top:6%;left:10%;}.paper{padding:1rem;border-radius:0;margin:0;}.cta a{padding:.75rem 1.5rem;}}
+    @media(max-width:480px){section::before{font-size:4rem;top:3%;left:5%;}}
+        p,
     ul {
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 1rem;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 0.75rem;
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
-    ul li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--neon);
-    }
-    ul li:hover {
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 6px var(--neon));
-    }
-
-    .quote {
-      font-style: italic;
-      color: #aaa;
-      margin: 1rem 0;
-      position: relative;
-      text-align: center;
-    }
-    .quote::before {
-      content: '“';
-      font-size: 3rem;
-      position: absolute;
-      left: calc(50% - 10px);
-      top: -20px;
-      color: var(--neon);
-      opacity: 0.3;
-    }
-
-    /* BUTTON HOVER EFFECT */
-    .cta a {
-      display: inline-block;
-      padding: 1rem 2rem;
-      border: 2px solid var(--neon);
-      font-family: var(--futuristic);
-      position: relative;
-      overflow: hidden;
-      transition: text-shadow 0.3s, transform 0.3s ease;
-    }
-    .cta a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: -100%;
-      width: 100%;
-      height: 2px;
-      background: var(--neon);
-      transition: left 0.3s ease;
-    }
-    .cta a:hover {
-      animation: neonPulse 0.8s ease-in-out 1;
-      text-shadow: 0 0 8px var(--neon);
-      transform: translateY(-2px);
-    }
-    .cta a:hover::after {
-      left: 0;
-    }
-    @keyframes neonPulse {
-      0%, 100% {
-        box-shadow: 0 0 8px var(--neon);
-      }
-      50% {
-        box-shadow: 0 0 16px var(--neon);
-      }
-    }
-
-    /* GALLERY STYLES */
-    #gallery {
-      padding-bottom: 6rem;
-    }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--neon);
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.2);
-      box-shadow: 0 0 12px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .gallery-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 24px var(--neon);
-    }
-    .gallery-item:hover img {
-      transform: scale(1.12);
-    }
-
-    /* FOOTER STYLES */
-    footer {
-      background: #0a0a0a;
-      padding: 2rem 1rem;
-      text-align: center;
-      color: #555;
-      border-top: 1px solid var(--neon);
-    }
-    .footer-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .footer-container p {
-      margin-bottom: 0.5rem;
-    }
-    .back-to-top {
-      display: inline-block;
-      margin-top: 0.5rem;
-      color: var(--neon);
-      font-size: 1.25rem;
-      text-decoration: none;
-      transition: transform 0.3s ease;
-    }
-    .back-to-top:hover {
-      transform: translateY(-2px);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      section {
-        padding: 6rem 2rem;
-      }
-      h1 {
-        font-size: 3.5rem;
-      }
-      h2 {
-        font-size: 1.75rem;
-      }
-      section::before {
-        font-size: 7rem;
-        top: 8%;
-        left: 8%;
-      }
-    }
-    @media (max-width: 768px) {
-      section {
-        padding: 4rem 1rem;
-      }
-      h1 {
-        font-size: 2.5rem;
-      }
-      h2 {
-        font-size: 1.5rem;
-      }
-      section::before {
-        font-size: 6rem;
-        top: 6%;
-        left: 10%;
-      }
-      .paper {
-        padding: 1rem;
-        max-width: none;
-        width: 100%;
-        border-radius: 0;
-        margin: 0;
-      }
-      .cta a {
-        padding: 0.75rem 1.5rem;
-      }
-      .gallery-grid {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      }
-    }
-    @media (max-width: 480px) {
-      section::before {
-        font-size: 4rem;
-        top: 3%;
-        left: 5%;
-      }
-    }
   </style>
 </head>
 <body>
   <div id="progress"></div>
+  <div id="wire"><svg><path id="wirePath" class="wire-path" d="M2,0 L2,10000"/></svg></div>
+  <canvas class="trail"></canvas>
 
-  <!-- SECTIONS -->
   <section id="hero" data-section-number="01">
     <div class="layer" data-depth="0.02"></div>
+    <svg class="icon" style="top:20%;left:80%;"><use xlink:href="#icon-cog"/></svg>
     <div class="paper">
-      <h1 class="glitch" data-text="The Cyborg">The Cyborg</h1>
+      <h1 class="glitch" data-text="TheCyborg">The Cyborg</h1>
       <p>Tech-Entrepreneur | Builder | Pro-reader</p>
       <div class="quote">Build where it matters most beyond borders</div>
       <p>I’m Azad, an entrepreneur with a bachelor’s in computer science and a lifelong passion for building. I work at the crossroads of traditional industries and technology. Every project is fueled by my drive to create technology that makes a tangible difference.</p>
     </div>
   </section>
 
-  <section id="mission" data-section-number="02">
+  <section id="mission" class="alt" data-section-number="02">
     <div class="layer" data-depth="0.04"></div>
+    <svg class="icon" style="top:30%;left:15%;"><use xlink:href="#icon-rocket"/></svg>
     <div class="paper">
       <h2>My Mission</h2>
-      <p>I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting-edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting-edge solutions and real human needs.</p>
+      <p>I believe the most transformative innovations emerge when we tackle the toughest problems in places the world often overlooks. My mission is to leverage cutting-edge and sustainable tech to empower communities in developing regions—bridging the gap between the need for cutting-edge solutions and real human needs.
+      </p>
     </div>
   </section>
 
   <section id="domains" data-section-number="03">
     <div class="layer" data-depth="0.06"></div>
+    <svg class="icon" style="top:25%;left:75%;"><use xlink:href="#icon-network"/></svg>
     <div class="paper">
-      <h2>Domains &amp; Topics</h2>
+      <h2>Domains & Topics</h2>
       <ul>
         <li>WEB3 Real World Assets (RWA) · Decentralized Applications · Practical blockchain use cases</li>
-        <li>Tech Farming · Sustainable agriculture &amp; food tech innovation</li>
-        <li>AI-driven apps &amp; agents</li>
+        <li>Tech Farming · Sustainable agriculture & food tech innovation</li>
+        <li>AI-driven apps & agents</li>
+        <li>Robatics and Smart Gadgets</li>
       </ul>
     </div>
   </section>
 
-  <section id="loves" data-section-number="04">
+  <section id="loves" class="alt" data-section-number="04">
     <div class="layer" data-depth="0.03"></div>
+    <svg class="icon" style="top:70%;left:20%;"><use xlink:href="#icon-heart"/></svg>
     <div class="paper">
       <h2>What I Love to Do</h2>
       <ul>
+        <li>Reading and more reading</li>
         <li>Sprinting</li>
         <li>Weightlifting</li>
-        <li>Meditation &amp; hiking</li>
+        <li>Meditation & hiking</li>
         <li>Augmented archery</li>
         <li>Skydiving</li>
         <li>Jet-powered flight (loading...)</li>
@@ -455,19 +213,39 @@
 
   <section id="books" data-section-number="05">
     <div class="layer" data-depth="0.05"></div>
+    <svg class="icon" style="top:30%;left:85%;"><use xlink:href="#icon-book"/></symbol></svg>
     <div class="paper">
       <h2>Books I’ve Read in 2025</h2>
-      <ul>
-        <li>The Principles</li>
-        <li>The Internet of Money</li>
-        <li>Thinking in Systems</li>
-        <li>Read Write Own</li>
+ <ul class="books-list">
+        <li>
+          <span class="book-title">The Principles</span>
+          <span class="book-author">by Ray Dalio</span>
+          <span class="status">Reading</span>
+        </li>
+        <li>
+          <span class="book-title">The Internet of Money</span>
+          <span class="book-author">by Andreas M. Antonopoulos</span>
+          <span class="status">To Read</span>
+        </li>
+        <li>
+          <span class="book-title">Thinking in Systems</span>
+          <span class="book-author">by Donella H. Meadows</span>
+          <span class="status">To Read</span>
+        </li>
+        <li>
+          <span class="book-title">Read Write Own</span>
+          <span class="book-author">by William Mougayar</span>
+          <span class="status">Reading</span>
+        </li>
       </ul>
+      
+      
     </div>
   </section>
 
-  <section id="fascinations" data-section-number="06">
+  <section id="fascinations" class="alt" data-section-number="06">
     <div class="layer" data-depth="0.05"></div>
+    <svg class="icon" style="top:60%;left:15%;"><use xlink:href="#icon-mountain"/></svg>
     <div class="paper">
       <h2>What Fascinates Me</h2>
       <p>I’m endlessly inspired by the raw ambition of K2 climbers and the elegant simplicity of Satoshi’s Bitcoin white paper—both testaments to human ingenuity prevailing against all odds.</p>
@@ -476,111 +254,74 @@
 
   <section id="connect" data-section-number="07">
     <div class="layer" data-depth="0.04"></div>
+    <svg class="icon" style="top:20%;left:75%;"><use xlink:href="#icon-mail"/></svg>
     <div class="paper">
       <h2>Let’s Connect</h2>
-      <p>I’m eager to collaborate with teams and founders who share my passion for marrying cutting-edge tech with genuine social impact. If you believe technology can reshape lives in overlooked regions, let’s talk.</p>
-      <div class="cta">
-        <a href="mailto:azad@xiq.world">Connect via Email</a>
-      </div>
+      <p>
+        If you believe technology can reshape lives in overlooked regions, let’s talk.
+      I’m eager to collaborate with teams and founders who share my passion for marrying cutting-edge tech with genuine social impact. 
+      </p>
+      <div class="cta"><a href="mailto:azad@xiq.world">Connect via Email</a></div>
     </div>
   </section>
 
-  <!-- GALLERY SECTION -->
-  <!-- <section id="gallery" data-section-number="08">
-    <div class="layer" data-depth="0.04"></div>
-    <div class="paper">
-      <h2>Gallery</h2>
-      <p class="quote" style="font-style: normal; color: #aaa; font-size: 0.9rem; text-align: center;">
-        A few moments captured while building, traveling, and exploring.
-      </p>
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <a href="images/portfolio1-large.jpg" target="_blank" rel="noopener">
-            <img src="C:\Users\Azad\Desktop\words\profile.jpeg" alt="Prototype demo in Kabul" width="300" height="200" loading="lazy" />
-          </a>
-        </div>
-        <div class="gallery-item">
-          <a href="images/portfolio2-large.jpg" target="_blank" rel="noopener">
-            <img src="images/portfolio2-thumb.jpg" alt="Web3 workshop event" width="300" height="200" loading="lazy" />
-          </a>
-        </div>
-        <div class="gallery-item">
-          <a href="images/portfolio3-large.jpg" target="_blank" rel="noopener">
-            <img src="images/portfolio3-thumb.jpg" alt="Field testing sustainable farm tech" width="300" height="200" loading="lazy" />
-          </a>
-        </div>
-        <div class="gallery-item">
-          <a href="images/portfolio4-large.jpg" target="_blank" rel="noopener">
-            <img src="images/portfolio4-thumb.jpg" alt="Skydiving over the mountains" width="300" height="200" loading="lazy" />
-          </a>
-        </div>
-    
-      </div>
-    </div>
-  </section> -->
-
-  <!-- FOOTER -->
-  <!-- FOOTER -->
   <footer>
     <div class="footer-container">
       <p>&copy; 2025 Azad “The Cyborg”. All rights reserved.</p>
       <p>Email: <a href="mailto:azad@xiq.world">azad@xiq.world</a></p>
       <p>Ph (AFG): +93 70 615 2014</p>
       <p>Ph (UK): +44 20 7946 0958</p>
-      <a href="#hero" class="back-to-top" aria-label="Back to top">↑ Back to Top</a>
+      <a href="#hero" class="back-to-top">↑ Back to Top</a>
     </div>
   </footer>
 
   <script>
-    // Combined Scroll Handler using requestAnimationFrame
-    (function() {
-      const progressBar = document.getElementById('progress');
-      const sections = document.querySelectorAll('section');
-      let lastScrollY = 0;
-      let ticking = false;
-
-      function onScroll() {
-        lastScrollY = window.scrollY;
-        requestTick();
-      }
-
-      function requestTick() {
-        if (!ticking) {
-          requestAnimationFrame(update);
-        }
-        ticking = true;
-      }
-
-      function update() {
-        const scrollTop = lastScrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const percentScrolled = (scrollTop / docHeight) * 100;
-        progressBar.style.width = percentScrolled + '%';
-
-        sections.forEach(sec => {
-          const layer = sec.querySelector('.layer');
-          if (layer) {
-            const depth = parseFloat(layer.dataset.depth);
-            layer.style.transform = `translateY(${scrollTop * depth}px)`;
-          }
+    (function(){
+      const progressBar=document.getElementById('progress');
+      const path=document.getElementById('wirePath');
+      const length=path.getTotalLength();
+      path.style.strokeDasharray=length;
+      path.style.strokeDashoffset=length;
+      const sections=document.querySelectorAll('section');
+      let lastScroll=0, ticking=false;
+      function onScroll(){ lastScroll=window.scrollY; if(!ticking) requestAnimationFrame(update); ticking=true; }
+      function update(){
+        const scrollTop=lastScroll;
+        const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+        const pct=(scrollTop/docHeight)*100;
+        progressBar.style.width=pct+'%';
+        const draw=length-(scrollTop/docHeight)*length;
+        path.style.strokeDashoffset=draw;
+        path.style.stroke='var(--wire-on)';
+        sections.forEach(sec=>{
+          const layer=sec.querySelector('.layer');
+          if(layer){ layer.style.transform=`translateY(${scrollTop*parseFloat(layer.dataset.depth)}px)`; }
         });
-
-        ticking = false;
+        ticking=false;
       }
-
-      window.addEventListener('scroll', onScroll);
-      // Initialize at load
-      update();
-
-      // IntersectionObserver for section reveal
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('active');
-        });
-      }, { threshold: 0.3 });
-
-      sections.forEach(sec => observer.observe(sec));
+      window.addEventListener('scroll',onScroll); update();
+      const observer=new IntersectionObserver(entries=>{ entries.forEach(ent=>{ if(ent.isIntersecting){ ent.target.classList.add('active'); navigator.vibrate(50); }}); },{threshold:0.3});
+      sections.forEach(s=>observer.observe(s));
+      const canvas=document.querySelector('.trail'); const ctx=canvas.getContext('2d'); let particles=[];
+      function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+      window.addEventListener('resize',resize); resize();
+      window.addEventListener('mousemove',e=>{ particles.push({x:e.clientX,y:e.clientY,alpha:1}); });
+      function animate(){ requestAnimationFrame(animate); ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles=particles.map(p=>({x:p.x,y:p.y-1,alpha:p.alpha-0.02})).filter(p=>p.alpha>0);
+        particles.forEach(p=>{ ctx.globalAlpha=p.alpha; ctx.beginPath(); ctx.arc(p.x,p.y,8,0,2*Math.PI); ctx.fillStyle='var(--neon)'; ctx.fill(); }); ctx.globalAlpha=1;
+      }
+      animate();
     })();
   </script>
+
+  <svg style="display:none;">
+    <symbol id="icon-cog" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z"/></symbol>
+    <symbol id="icon-rocket" viewBox="0 0 24 24"><path d="M12 2l3 7h-6l3-7z"/></symbol>
+    <symbol id="icon-network" viewBox="0 0 24 24"><path d="M4 12l8-8 8 8"/></symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M12 21s-6-5.33-10-9.33C-1 7.67 5 3 12 8c7-5 13-0.67 10 3.67-4 4-10 9.33-10 9.33z"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></symbol>
+    <symbol id="icon-mountain" viewBox="0 0 24 24"><path d="M2 22l10-20 10 20H2z"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2 4h20v16H2z"/></symbol>
+  </svg>
 </body>
 </html>
